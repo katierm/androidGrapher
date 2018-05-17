@@ -112,10 +112,13 @@ class ImageEdit extends View implements View.OnDragListener{
         yPad1 = event.getY();
 
         Paint p=new Paint(Paint.ANTI_ALIAS_FLAG);
-    
-        if(brushes==Brushes.PEN) {
-             invalidate();
-        }
+    switch (event.getAction()) {
+        case MotionEvent.ACTION_MOVE:
+            if (brushes == Brushes.PEN) {
+                invalidate();
+            }
+            break;
+    }
         return  true;
     }
 }
