@@ -18,6 +18,7 @@ import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.view.View.OnTouchListener;
 
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.panel).setOnDragListener(ie);
         FrameLayout f = findViewById(R.id.panel);
         f.addView(ie);
-
+        ie.initButtons();
     }
 
 }
@@ -44,9 +45,8 @@ class ImageEdit extends View implements View.OnDragListener{
     Canvas mCanvas = new Canvas();
     Paint p;
     float xPad1,yPad1,xPad2,yPad2;
-    int curColor = Color.WHITE;
+    int curColor = Color.BLACK;
     Brushes brushes = Brushes.EMPTY;
-    Path freePath = new Path();
     public ImageEdit(Context context) {
         super(context);
         this.setDrawingCacheEnabled(true);
@@ -61,7 +61,7 @@ class ImageEdit extends View implements View.OnDragListener{
         Canvas bmCanv=new Canvas(bm);
         switch (brushes) {
             case EMPTY:
-                bmCanv.drawColor(curColor);
+                bmCanv.drawColor(Color.WHITE);
                 brushes=Brushes.PEN;
                 canvas.drawBitmap(bm, 10, 20, p);
                 bitmap = Bitmap.createBitmap(bm);
@@ -71,20 +71,12 @@ class ImageEdit extends View implements View.OnDragListener{
 
                 break;
             case PEN:
-                curColor=Color.RED;
-                p.setColor(curColor);
                 if(bitmap==null) return;
-                //mCanvas.drawPath(freePath, p);
-                mCanvas.drawLine(xPad1,yPad1,xPad2,yPad2,p);
                 canvas.drawBitmap(bitmap, 10, 20, p);
                 mCanvas.setBitmap(bitmap);
-                //freePath.moveTo(0, 0);        // this should set the start point right
                  break;
 
         }
-            //bmCanv.save();
-        //canvas.drawBitmap(bm, 10, 20, p);
-            //bitmap = Bitmap.createBitmap(bm);
 
     }
 
@@ -115,12 +107,29 @@ class ImageEdit extends View implements View.OnDragListener{
     switch (event.getAction()) {
         case MotionEvent.ACTION_MOVE:
             if (brushes == Brushes.PEN) {
+                p.setColor(curColor);
+                mCanvas.drawLine(xPad1,yPad1,xPad2,yPad2,p);
                 invalidate();
             }
             break;
     }
         return  true;
     }
+  public  void initButtons(){
+      findViewById(R.id.red).setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+          }
+      });
+        findViewById(R.id.blue).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                curColor = Color.BLUE;
+            }
+        });
+
+    }
+
 }
 enum  Brushes{
     EMPTY,
