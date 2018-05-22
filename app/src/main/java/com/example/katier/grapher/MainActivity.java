@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.CornerPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
@@ -23,6 +24,7 @@ import android.widget.FrameLayout;
 import android.view.View.OnTouchListener;
 
 import android.widget.ImageView;
+import android.widget.SeekBar;
 
 public class MainActivity extends AppCompatActivity {
     @Override
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         FrameLayout f = findViewById(R.id.panel);
         f.addView(ie);
         initButtons(ie);
+        initSeekBarsI(ie);
     }
     private void initButtons(final ImageEdit ie){
         findViewById(R.id.red).setOnClickListener(new View.OnClickListener() {
@@ -74,17 +77,34 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    private void initSeekBarsI(final ImageEdit ie) {
+        ((SeekBar) findViewById(R.id.thicckness)).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                ie.setThickness(progress);
+            }
 
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
 
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+    }
 }
 
 class ImageEdit extends View implements View.OnDragListener{
     Bitmap bitmap;
-    Path path=new Path();
     Canvas mCanvas = new Canvas();
     Paint p;
     float xPad1,yPad1,xPad2,yPad2;
     int curColor = Color.BLACK;
+    int thickness = 1;
     Brushes brushes = Brushes.EMPTY;
     public ImageEdit(Context context) {
         super(context);
@@ -94,6 +114,9 @@ class ImageEdit extends View implements View.OnDragListener{
      void setCurColor(int color){
         curColor = color;
     }
+    void setThickness(int thickness) {
+        this.thickness = thickness;
+}
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -145,6 +168,10 @@ class ImageEdit extends View implements View.OnDragListener{
         case MotionEvent.ACTION_MOVE:
             if (brushes == Brushes.PEN) {
                 p.setColor(curColor);
+                p.setStrokeWidth(thickness);
+                p.setStrokeJoin(Paint.Join.ROUND);    // set the join to round you want
+                p.setStrokeCap(Paint.Cap.ROUND);      // set the paint cap to round too
+                p.setAntiAlias(true);
                 mCanvas.drawLine(xPad1,yPad1,xPad2,yPad2,p);
                 invalidate();
             }
@@ -152,7 +179,6 @@ class ImageEdit extends View implements View.OnDragListener{
     }
         return  true;
     }
-
 }
 enum  Brushes{
     EMPTY,
