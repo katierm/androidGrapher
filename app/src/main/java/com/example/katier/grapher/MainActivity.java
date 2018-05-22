@@ -34,8 +34,24 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.panel).setOnDragListener(ie);
         FrameLayout f = findViewById(R.id.panel);
         f.addView(ie);
-        ie.initButtons();
+        initButtons(ie);
     }
+    private void initButtons(final ImageEdit ie){
+        findViewById(R.id.red).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ie.setCurColor(Color.RED);
+            }
+        });
+        findViewById(R.id.blue).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ie.setCurColor(Color.BLUE);
+
+            }
+        });
+    }
+
 
 }
 
@@ -52,23 +68,22 @@ class ImageEdit extends View implements View.OnDragListener{
         this.setDrawingCacheEnabled(true);
 
     }
-
+     void setCurColor(int color){
+        curColor = color;
+    }
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         Paint p=new Paint(Paint.ANTI_ALIAS_FLAG);
-        Bitmap bm=Bitmap.createBitmap(canvas.getWidth(),canvas.getHeight(), Bitmap.Config.RGB_565);
-        Canvas bmCanv=new Canvas(bm);
         switch (brushes) {
             case EMPTY:
+                Bitmap bm=Bitmap.createBitmap(canvas.getWidth(),canvas.getHeight(), Bitmap.Config.RGB_565);
+                Canvas bmCanv=new Canvas(bm);
                 bmCanv.drawColor(Color.WHITE);
                 brushes=Brushes.PEN;
                 canvas.drawBitmap(bm, 10, 20, p);
                 bitmap = Bitmap.createBitmap(bm);
-                //bmCanv.save();
                 mCanvas.setBitmap(bitmap);
-
-
                 break;
             case PEN:
                 if(bitmap==null) return;
@@ -97,7 +112,6 @@ class ImageEdit extends View implements View.OnDragListener{
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        curColor=Color.RED;
         xPad2=xPad1;
         yPad2 = yPad1;
         xPad1 = event.getX();
@@ -114,20 +128,6 @@ class ImageEdit extends View implements View.OnDragListener{
             break;
     }
         return  true;
-    }
-  public  void initButtons(){
-      findViewById(R.id.red).setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-          }
-      });
-        findViewById(R.id.blue).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                curColor = Color.BLUE;
-            }
-        });
-
     }
 
 }
