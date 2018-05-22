@@ -47,7 +47,30 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ie.setCurColor(Color.BLUE);
-
+            }
+        });
+        findViewById(R.id.black).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ie.setCurColor(Color.BLACK);
+            }
+        });
+        findViewById(R.id.yellow).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ie.setCurColor(Color.YELLOW);
+            }
+        });
+        findViewById(R.id.white).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ie.setCurColor(Color.WHITE);
+            }
+        });
+        findViewById(R.id.green).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ie.setCurColor(Color.GREEN);
             }
         });
     }

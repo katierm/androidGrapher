@@ -89,7 +89,7 @@
             android:background="@drawable/yb" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/white"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginBottom="8dp"
