@@ -27,6 +27,7 @@ public class Main2Activity extends AppCompatActivity {
             public void onClick(View v) {
                 com.example.katier.grapher.Color color = new com.example.katier.grapher.Color();
                 color.show(getFragmentManager(), "login");
+                color.setIe(ie);
             }
         });
 
