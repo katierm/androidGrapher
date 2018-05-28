@@ -1,39 +1,19 @@
 package com.example.katier.grapher;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-
-import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
 import android.view.View;
-
 import android.widget.FrameLayout;
-import android.view.View.OnTouchListener;
-
-import android.widget.ImageView;
 import android.widget.SeekBar;
-import android.support.v4.app.DialogFragment;
 
-
-public class MainActivity extends AppCompatActivity{
-
+public class Main2Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main2);
         ImageEdit ie = new ImageEdit(this);
         findViewById(R.id.panel).setOnDragListener(ie);
         FrameLayout f = findViewById(R.id.panel);
@@ -41,22 +21,15 @@ public class MainActivity extends AppCompatActivity{
         initButtons(ie);
         initSeekBarsI(ie);
     }
-
-    protected void onSaveInstanceState(Bundle outState) {
-
-        super.onSaveInstanceState(outState);
-    }
-
     private void initButtons(final ImageEdit ie){
         findViewById(R.id.color).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 com.example.katier.grapher.Color color = new com.example.katier.grapher.Color();
                 color.show(getFragmentManager(), "login");
-                color.setIe(ie);
-                //ie.setCurColor(((ColorDrawable)findViewById(R.id.color).getBackground()).getColor());
             }
         });
+
         findViewById(R.id.red).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,12 +66,13 @@ public class MainActivity extends AppCompatActivity{
                 ie.setCurColor(Color.GREEN);
             }
         });
-        findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
+
+        findViewById(R.id.prev).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BitMs.bms[0] = ie.getBitmap();
-                BitMs.index = 1;
-                Intent intent = new Intent(MainActivity.this,Main2Activity.class);
+                BitMs.bms[1] = ie.getBitmap();
+                BitMs.index = 0;
+                Intent intent = new Intent(Main2Activity.this,MainActivity.class);
                 startActivity(intent);
             }
         });
@@ -120,8 +94,7 @@ public class MainActivity extends AppCompatActivity{
 
             }
         });
-        }
 
+    }
 }
-
 
