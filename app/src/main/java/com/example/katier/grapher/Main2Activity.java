@@ -22,6 +22,18 @@ public class Main2Activity extends AppCompatActivity {
         initSeekBarsI(ie);
     }
     private void initButtons(final ImageEdit ie){
+
+        findViewById(R.id.brushes).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Attributes attrs = new Attributes();
+
+                attrs.show(getFragmentManager(), "login");
+                attrs.setIe(ie);
+
+            }
+        });
+
         findViewById(R.id.color).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -57,6 +57,16 @@ public class MainActivity extends AppCompatActivity{
                 //ie.setCurColor(((ColorDrawable)findViewById(R.id.color).getBackground()).getColor());
             }
         });
+        findViewById(R.id.brushes).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Attributes attrs = new Attributes();
+
+                attrs.show(getFragmentManager(), "login");
+                attrs.setIe(ie);
+
+            }
+        });
         findViewById(R.id.red).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,6 +112,7 @@ public class MainActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+
     }
     private void initSeekBarsI(final ImageEdit ie) {
         ((SeekBar) findViewById(R.id.thicckness)).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
