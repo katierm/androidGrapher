@@ -12,11 +12,13 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.view.ContextThemeWrapper;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 
 public class Attributes extends DialogFragment{
     Brushes mode = Brushes.PEN;
     ImageEdit ie;
+    Button tmp;// = (Button) findViewById(R.id.pen);
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -45,6 +47,10 @@ public class Attributes extends DialogFragment{
             @Override
             public void onClick(View v) {
                 mode=Brushes.PEN;
+                view.findViewById(R.id.pen).setBackgroundColor(android.graphics.Color.parseColor("#4633b5e5"));
+                if(tmp!=null&&tmp!=view.findViewById(R.id.pen)) tmp.setBackgroundColor(android.graphics.Color.parseColor("#33b5e5"));
+                 tmp = view.findViewById(R.id.pen);
+
             }
         });
 
@@ -52,18 +58,27 @@ public class Attributes extends DialogFragment{
             @Override
             public void onClick(View v) {
                 mode=Brushes.RECT;
+                view.findViewById(R.id.rect).setBackgroundColor(android.graphics.Color.parseColor("#4633b5e5"));
+                if(tmp!=null&&tmp!=view.findViewById(R.id.rect)) tmp.setBackgroundColor(android.graphics.Color.parseColor("#33b5e5"));
+                tmp = view.findViewById(R.id.rect);
             }
         });
         view.findViewById(R.id.oval).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mode=Brushes.OVAL;
+                view.findViewById(R.id.oval).setBackgroundColor(android.graphics.Color.parseColor("#4633b5e5"));
+                if(tmp!=null&&tmp!=view.findViewById(R.id.oval)) tmp.setBackgroundColor(android.graphics.Color.parseColor("#33b5e5"));
+                tmp = view.findViewById(R.id.oval);
             }
         });
         view.findViewById(R.id.clear).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ie.setBrushes(Brushes.EMPTY);
+                ie.setBrushes(Brushes.CLEAR);
+                view.findViewById(R.id.clear).setBackgroundColor(android.graphics.Color.parseColor("#4633b5e5"));
+                if(tmp!=null&&tmp!=view.findViewById(R.id.clear)) tmp.setBackgroundColor(android.graphics.Color.parseColor("#33b5e5"));
+                tmp = view.findViewById(R.id.clear);
                 ie.invalidate();
             }
         });

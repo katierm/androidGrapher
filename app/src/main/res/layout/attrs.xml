@@ -29,26 +29,32 @@
 
             <Button
                 android:id="@+id/pen"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_width="5dp"
                 android:layout_height="45dp"
                 android:layout_weight="1"
-                android:backgroundTint="@android:color/holo_blue_light"
+                android:background="@android:color/holo_blue_light"
                 android:text="pen" />
 
             <Button
                 android:id="@+id/rect"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_width="5dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:backgroundTint="@android:color/holo_blue_light"
+                android:background="@android:color/holo_blue_light"
                 android:text="Rect" />
 
             <Button
                 android:id="@+id/oval"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_width="5dp"
                 android:layout_height="45dp"
                 android:layout_weight="1"
-                android:backgroundTint="@android:color/holo_blue_light"
+                android:background="@android:color/holo_blue_light"
                 android:text="Oval" />
 
         </LinearLayout>
@@ -67,26 +73,32 @@
 
             <Button
                 android:id="@+id/clear"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:backgroundTint="@android:color/holo_blue_light"
+                android:background="@android:color/holo_blue_light"
                 android:text="Clear" />
 
             <Button
                 android:id="@+id/back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_weight="1"
-                android:backgroundTint="@android:color/holo_blue_light"
+                android:background="@android:color/holo_blue_light"
                 android:text="back" />
 
             <Button
                 android:id="@+id/next"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_weight="1"
-                android:backgroundTint="@android:color/holo_blue_light"
+                android:background="@android:color/holo_blue_light"
                 android:text="next" />
         </LinearLayout>
 

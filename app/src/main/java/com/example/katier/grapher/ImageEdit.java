@@ -37,17 +37,19 @@ public class ImageEdit extends View implements View.OnDragListener {
     public void setBrushes(Brushes brushes){
         this.brushes=brushes;
     }
+    private void fillWhite(Bitmap bm){
+        Canvas bmCanv = new Canvas(bm);
+        bmCanv.drawColor(Color.WHITE);
+    }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         Paint p=new Paint(Paint.ANTI_ALIAS_FLAG);
        if(brushes==Brushes.EMPTY) {
-           Bitmap bm;
+           Bitmap bm = Bitmap.createBitmap(canvas.getWidth(), canvas.getHeight(), Bitmap.Config.RGB_565);
            if (BitMs.bms[BitMs.index] == null) {
-               bm = Bitmap.createBitmap(canvas.getWidth(), canvas.getHeight(), Bitmap.Config.RGB_565);
-               Canvas bmCanv = new Canvas(bm);
-               bmCanv.drawColor(Color.WHITE);
+              fillWhite(bm);
            } else bm = BitMs.bms[BitMs.index];
            brushes = Brushes.PEN;
            canvas.drawBitmap(bm, 10, 20, p);
@@ -56,8 +58,10 @@ public class ImageEdit extends View implements View.OnDragListener {
        }
            else{
                 if(bitmap==null) return;
-                canvas.drawBitmap(bitmap, 10, 20, p);
-                mCanvas.setBitmap(bitmap);
+                if(brushes==Brushes.CLEAR)
+                    fillWhite(bitmap);
+           canvas.drawBitmap(bitmap, 10, 20, p);
+           mCanvas.setBitmap(bitmap);
         }
 
     }
@@ -124,6 +128,7 @@ enum  Brushes{
     EMPTY,
     PEN,
     RECT,
-    OVAL
+    OVAL,
+    CLEAR
 }
 
