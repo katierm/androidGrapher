@@ -14,16 +14,18 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import static java.lang.String.valueOf;
 
 public class Color extends DialogFragment {
-
+    boolean rgb = true;
     int r = 0;
     int g = 0;
     int b = 0;
     String col="#"+getColorFromInt(r)+getColorFromInt(g)+getColorFromInt(b);
     ImageEdit ie;
+
     String getCol(){
         System.out.println(col);
         return col;
@@ -36,8 +38,9 @@ public class Color extends DialogFragment {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final View view = getActivity().getLayoutInflater().inflate(R.layout.coldi, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Choose color");
         //final String col = "#"+getColorFromInt(r)+getColorFromInt(g)+getColorFromInt(b);
 
@@ -55,19 +58,57 @@ public class Color extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         if(ie==null)return;
                         col = "#"+getColorFromInt(r)+getColorFromInt(g)+getColorFromInt(b);
-                        getActivity().findViewById(R.id.color).setBackgroundColor(android.graphics.Color.parseColor(col));
-                        ie.setCurColor(android.graphics.Color.parseColor(col));
+                        if(rgb==false) {
+                            int hsvCol = getHsvColor();
+                            getActivity().findViewById(R.id.color).setBackgroundColor(hsvCol);
+                            ie.setCurColor(hsvCol);                        }
+                        else {
+                            getActivity().findViewById(R.id.color).setBackgroundColor(android.graphics.Color.parseColor(col));
+                            ie.setCurColor(android.graphics.Color.parseColor(col));
+                        }
                         dialog.cancel();
                     }
                 });
-
+        view.findViewById(R.id.rgb).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView tv =(view.findViewById(R.id.textView));
+                tv.setText("red");
+                tv = (view.findViewById(R.id.textView2));
+                tv.setText("green");
+                tv = (view.findViewById(R.id.textView3));
+                tv.setText("blue");
+                col = "#"+getColorFromInt(r)+getColorFromInt(g)+getColorFromInt(b);
+                view.findViewById(R.id.col).setBackgroundColor(android.graphics.Color.parseColor(col));
+                rgb = true;
+            }
+        });
+        view.findViewById(R.id.hsv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView tv =(view.findViewById(R.id.textView));
+                tv.setText("hue");
+                tv = (view.findViewById(R.id.textView2));
+                tv.setText("sat");
+                tv = (view.findViewById(R.id.textView3));
+                tv.setText("value");
+                int hsvCol = getHsvColor();
+                view.findViewById(R.id.col).setBackgroundColor(hsvCol);
+                rgb = false;
+            }
+        });
 
         ((SeekBar) view.findViewById(R.id.red)).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                int hsvCol;
                 r = progress;
                 col = "#"+getColorFromInt(r)+getColorFromInt(g)+getColorFromInt(b);
-                view.findViewById(R.id.col).setBackgroundColor(android.graphics.Color.parseColor(col));
+                if(!rgb) {
+                    hsvCol = getHsvColor();
+                    view.findViewById(R.id.col).setBackgroundColor(hsvCol);
+                }
+                else view.findViewById(R.id.col).setBackgroundColor(android.graphics.Color.parseColor(col));
             }
 
             @Override
@@ -83,10 +124,14 @@ public class Color extends DialogFragment {
         ((SeekBar) view.findViewById(R.id.green)).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                int hsvCol;
                 g = progress;
                 col = "#"+getColorFromInt(r)+getColorFromInt(g)+getColorFromInt(b);
-                view.findViewById(R.id.col).setBackgroundColor(android.graphics.Color.parseColor(col));
-            }
+                if(rgb==false) {
+                    hsvCol = getHsvColor();
+                    view.findViewById(R.id.col).setBackgroundColor(hsvCol);
+                }
+                else view.findViewById(R.id.col).setBackgroundColor(android.graphics.Color.parseColor(col));            }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -101,10 +146,14 @@ public class Color extends DialogFragment {
         ((SeekBar) view.findViewById(R.id.blue)).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                int hsvCol;
                 b = progress;
                 col = "#"+getColorFromInt(r)+getColorFromInt(g)+getColorFromInt(b);
-                view.findViewById(R.id.col).setBackgroundColor(android.graphics.Color.parseColor(col));
-
+                if(rgb==false) {
+                    hsvCol = getHsvColor();
+                    view.findViewById(R.id.col).setBackgroundColor(hsvCol);
+                }
+                else view.findViewById(R.id.col).setBackgroundColor(android.graphics.Color.parseColor(col));
             }
 
             @Override
@@ -135,5 +184,8 @@ public class Color extends DialogFragment {
         else firstStr=String.valueOf(first);
         return firstStr+secondStr;
 
+    }
+    int getHsvColor(){
+        return android.graphics.Color.HSVToColor(new float[]{r*360/255f,g/255f,b/255f});
     }
 }

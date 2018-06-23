@@ -40,13 +40,18 @@ public class MainActivity extends AppCompatActivity{
         f.addView(ie);
         initButtons(ie);
         initSeekBarsI(ie);
+        setSeekBarAndCurColor();
     }
 
     protected void onSaveInstanceState(Bundle outState) {
 
         super.onSaveInstanceState(outState);
     }
-
+    public void setSeekBarAndCurColor(){
+        SeekBar seekBar = (SeekBar) findViewById(R.id.thicckness);
+        seekBar.setProgress(BitMs.thicknes[0]);
+        findViewById(R.id.color).setBackgroundColor(BitMs.curColor[0]);
+    }
     private void initButtons(final ImageEdit ie){
         findViewById(R.id.color).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,42 +76,61 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 ie.setCurColor(Color.RED);
+                findViewById(R.id.color).setBackgroundColor(Color.RED);
+
             }
         });
         findViewById(R.id.blue).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ie.setCurColor(Color.BLUE);
+                findViewById(R.id.color).setBackgroundColor(Color.BLUE);
+
             }
         });
         findViewById(R.id.black).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ie.setCurColor(Color.BLACK);
+                findViewById(R.id.color).setBackgroundColor(Color.BLACK);
+
             }
         });
         findViewById(R.id.yellow).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ie.setCurColor(Color.YELLOW);
+                findViewById(R.id.color).setBackgroundColor(Color.YELLOW);
+
             }
         });
         findViewById(R.id.white).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ie.setCurColor(Color.WHITE);
+                findViewById(R.id.color).setBackgroundColor(Color.WHITE);
+
             }
         });
         findViewById(R.id.green).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ie.setCurColor(Color.GREEN);
+                findViewById(R.id.color).setBackgroundColor(Color.GREEN);
+
             }
         });
         findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 BitMs.bms[0] = ie.getBitmap();
+                BitMs.thicknes[0] = ie.getThickness();
+                BitMs.curColor[0] = ie.getCurColor();
+                BitMs.brushes[0] = ie.brushes;
+                BitMs.redoStack[0] = ie.redoStack;
+                BitMs.undoStack[0] = ie.undoStack;
+                //SeekBar seekBar = (findViewById(R.id.thicckness));
+                //seekBar.setProgress();
                 BitMs.index = 1;
                 Intent intent = new Intent(MainActivity.this,Main2Activity.class);
                 startActivity(intent);

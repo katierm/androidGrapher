@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -75,10 +76,31 @@ public class Attributes extends DialogFragment{
         view.findViewById(R.id.clear).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ie.redoStack.addFirst(Bitmap.createBitmap(ie.getBitmap()));
                 ie.setBrushes(Brushes.CLEAR);
                 view.findViewById(R.id.clear).setBackgroundColor(android.graphics.Color.parseColor("#4633b5e5"));
                 if(tmp!=null&&tmp!=view.findViewById(R.id.clear)) tmp.setBackgroundColor(android.graphics.Color.parseColor("#33b5e5"));
                 tmp = view.findViewById(R.id.clear);
+                ie.invalidate();
+            }
+        });
+        view.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(ie.undoStack.size()==0) return;
+                ie.redoStack.addFirst(Bitmap.createBitmap(ie.getBitmap()));
+                //System.out.println(ie.redoStack.size());
+                ie.mCanvas.drawBitmap(ie.undoStack.pop(),0, 0, ie.p);
+                ie.invalidate();
+            }
+        });
+        view.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(ie.redoStack.size()==0) return;
+                ie.undoStack.push(Bitmap.createBitmap(ie.getBitmap()));
+                //System.out.println(ie.redoStack.size());
+                ie.mCanvas.drawBitmap(ie.redoStack.removeFirst(),0, 0, ie.p);
                 ie.invalidate();
             }
         });

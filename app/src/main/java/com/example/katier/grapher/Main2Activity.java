@@ -20,6 +20,12 @@ public class Main2Activity extends AppCompatActivity {
         f.addView(ie);
         initButtons(ie);
         initSeekBarsI(ie);
+        setSeekBar();
+    }
+    public void setSeekBar(){
+        SeekBar seekBar = (SeekBar) findViewById(R.id.thicckness);
+        seekBar.setProgress(BitMs.thicknes[1]);
+        findViewById(R.id.color).setBackgroundColor(BitMs.curColor[1]);
     }
     private void initButtons(final ImageEdit ie){
 
@@ -47,36 +53,47 @@ public class Main2Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ie.setCurColor(Color.RED);
+                findViewById(R.id.color).setBackgroundColor(Color.RED);
             }
         });
         findViewById(R.id.blue).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ie.setCurColor(Color.BLUE);
+                findViewById(R.id.color).setBackgroundColor(Color.BLUE);
+
             }
         });
         findViewById(R.id.black).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ie.setCurColor(Color.BLACK);
+                findViewById(R.id.color).setBackgroundColor(Color.BLACK);
+
             }
         });
         findViewById(R.id.yellow).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ie.setCurColor(Color.YELLOW);
+                findViewById(R.id.color).setBackgroundColor(Color.YELLOW);
+
             }
         });
         findViewById(R.id.white).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ie.setCurColor(Color.WHITE);
+                findViewById(R.id.color).setBackgroundColor(Color.WHITE);
+
             }
         });
         findViewById(R.id.green).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ie.setCurColor(Color.GREEN);
+                findViewById(R.id.color).setBackgroundColor(Color.GREEN);
+
             }
         });
 
@@ -84,6 +101,11 @@ public class Main2Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 BitMs.bms[1] = ie.getBitmap();
+                BitMs.thicknes[1] = ie.getThickness();
+                BitMs.curColor[1] = ie.getCurColor();
+                BitMs.brushes[1] = ie.brushes;
+                BitMs.redoStack[1] = ie.redoStack;
+                BitMs.undoStack[1] = ie.undoStack;
                 BitMs.index = 0;
                 Intent intent = new Intent(Main2Activity.this,MainActivity.class);
                 startActivity(intent);
