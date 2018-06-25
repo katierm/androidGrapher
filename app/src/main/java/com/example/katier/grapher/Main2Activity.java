@@ -101,6 +101,7 @@ public class Main2Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 BitMs.bms[1] = ie.getBitmap();
+                BitMs.bmsTmps[1] = ie.bitmapTmp;
                 BitMs.thicknes[1] = ie.getThickness();
                 BitMs.curColor[1] = ie.getCurColor();
                 BitMs.brushes[1] = ie.brushes;

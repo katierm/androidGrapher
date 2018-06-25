@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +19,11 @@ import java.util.Stack;
 public class ImageEdit extends View implements View.OnDragListener {
     Bitmap bitmap;
     Canvas mCanvas = new Canvas();
+
+    Bitmap bitmapTmp;
+    Canvas mCanvasTmp = new Canvas();
+    boolean redo = false;
+
     Paint p;
     public Deque<Bitmap> redoStack = new LinkedList<>();
     public Stack<Bitmap> undoStack = new Stack<>();
@@ -61,6 +67,7 @@ public class ImageEdit extends View implements View.OnDragListener {
     }
     private void setAfterReturning(){
         bitmap = Bitmap.createBitmap(BitMs.bms[BitMs.index]);
+        //bitmapTmp = Bitmap.createBitmap(BitMs.bmsTmps[BitMs.index]);
         thickness = BitMs.thicknes[BitMs.index];
         brushes = BitMs.brushes[BitMs.index];
         curColor = BitMs.curColor[BitMs.index];
@@ -79,9 +86,14 @@ public class ImageEdit extends View implements View.OnDragListener {
               fillWhite(bm);
                brushes = Brushes.PEN;
                canvas.drawBitmap(bm, 10, 20, p);
+
                bitmap = Bitmap.createBitmap(bm);
+               bitmapTmp = bitmap.copy(Bitmap.Config.RGB_565,true);
+               mCanvasTmp = new Canvas(bitmapTmp);
            } else {
                setAfterReturning();
+               bitmapTmp = bitmap.copy(Bitmap.Config.RGB_565,true);
+               mCanvasTmp = new Canvas(bitmapTmp);
                canvas.drawBitmap(bitmap, 10, 20, p);
            }
            mCanvas.setBitmap(bitmap);
@@ -91,8 +103,14 @@ public class ImageEdit extends View implements View.OnDragListener {
                 if(brushes==Brushes.CLEAR) {
                     fillWhite(bitmap);
                     setBrushes(Brushes.PEN);
+                    System.out.println("aaaaas");
                 }
-           canvas.drawBitmap(bitmap, 10, 20, p);
+
+           if(brushes==Brushes.PEN&&redo==false){canvas.drawBitmap(bitmapTmp, 10, 20, p);}
+                else {
+                    canvas.drawBitmap(bitmap, 10, 20, p);
+                    redo = false;
+           }
            //mCanvas.setBitmap(bitmap);
         }
 
@@ -112,6 +130,7 @@ public class ImageEdit extends View implements View.OnDragListener {
         yPad1 = event.getY();
         return true;
     }
+    Path path = new Path();
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -119,17 +138,24 @@ public class ImageEdit extends View implements View.OnDragListener {
         yPad2 = yPad1;
         xPad1 = event.getX();
         yPad1 = event.getY();
-
         Paint p=new Paint(Paint.ANTI_ALIAS_FLAG);
         p.setColor(curColor);
         p.setStrokeWidth(thickness);
         p.setStrokeJoin(Paint.Join.ROUND);    // set the join to round you want
         p.setStrokeCap(Paint.Cap.ROUND);      // set the paint cap to round too
         p.setAntiAlias(true);
+        p.setStyle(Paint.Style.FILL);
         switch (event.getAction()) {
             case MotionEvent.ACTION_MOVE:
+
                 if (brushes == Brushes.PEN) {
-                    mCanvas.drawLine(xPad1,yPad1,xPad2,yPad2,p);
+                    p.setStyle(Paint.Style.STROKE);
+                    mCanvasTmp.drawBitmap(bitmap,0,0,null);
+                    path.lineTo(xPad2,yPad2);
+                    //path.close();
+                    mCanvasTmp.drawPath(path,p);
+
+                    //mCanvas.drawLine(xPad1,yPad1,xPad2,yPad2,p);
                     invalidate();
                 }
                 if (brushes == Brushes.RECT) {
@@ -143,10 +169,18 @@ public class ImageEdit extends View implements View.OnDragListener {
                 }
                 break;
             case MotionEvent.ACTION_DOWN:
-                mCanvas.drawPoint(event.getX(),event.getY(),p);
-                invalidate();
+                if(brushes==Brushes.PEN) {
+                    path.reset();
+                    path.moveTo(xPad1, yPad1);
+                    //mCanvas.drawPoint(event.getX(), event.getY(), p);
+                    //invalidate();
+                }
                 if(redoStack.size()>7)  redoStack.removeLast();
                 redoStack.addFirst(Bitmap.createBitmap(bitmap));
+                break;
+            case MotionEvent.ACTION_UP:
+                if(brushes==Brushes.PEN)mCanvas.drawBitmap(bitmapTmp,0,0,null);
+                invalidate();
                 break;
         }
         return  true;
