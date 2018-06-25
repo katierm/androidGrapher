@@ -106,11 +106,11 @@ public class ImageEdit extends View implements View.OnDragListener {
                     System.out.println("aaaaas");
                 }
 
-           if(brushes==Brushes.PEN&&redo==false){canvas.drawBitmap(bitmapTmp, 10, 20, p);}
-                else {
+           //if(brushes==Brushes.PEN&&redo==false){canvas.drawBitmap(bitmapTmp, 10, 20, p);}
+            //    else {
                     canvas.drawBitmap(bitmap, 10, 20, p);
-                    redo = false;
-           }
+              //      redo = false;
+           //}
            //mCanvas.setBitmap(bitmap);
         }
 
@@ -150,10 +150,11 @@ public class ImageEdit extends View implements View.OnDragListener {
 
                 if (brushes == Brushes.PEN) {
                     p.setStyle(Paint.Style.STROKE);
-                    mCanvasTmp.drawBitmap(bitmap,0,0,null);
+                    //mCanvasTmp = new Canvas(bitmap);
+                    mCanvas.drawBitmap(bitmapTmp,0,0,null);
                     path.lineTo(xPad2,yPad2);
                     //path.close();
-                    mCanvasTmp.drawPath(path,p);
+                    mCanvas.drawPath(path,p);
 
                     //mCanvas.drawLine(xPad1,yPad1,xPad2,yPad2,p);
                     invalidate();
@@ -172,6 +173,7 @@ public class ImageEdit extends View implements View.OnDragListener {
                 if(brushes==Brushes.PEN) {
                     path.reset();
                     path.moveTo(xPad1, yPad1);
+                    bitmapTmp = bitmap.copy(Bitmap.Config.RGB_565,true);
                     //mCanvas.drawPoint(event.getX(), event.getY(), p);
                     //invalidate();
                 }
@@ -179,7 +181,7 @@ public class ImageEdit extends View implements View.OnDragListener {
                 redoStack.addFirst(Bitmap.createBitmap(bitmap));
                 break;
             case MotionEvent.ACTION_UP:
-                if(brushes==Brushes.PEN)mCanvas.drawBitmap(bitmapTmp,0,0,null);
+                if(brushes==Brushes.PEN)mCanvas.drawBitmap(bitmap,0,0,null);
                 invalidate();
                 break;
         }
