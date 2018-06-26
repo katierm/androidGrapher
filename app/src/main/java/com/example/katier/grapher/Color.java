@@ -77,7 +77,7 @@ public class Color extends DialogFragment {
                 tv.setText("red");
                 tv = (view.findViewById(R.id.textView2));
                 tv.setText("green");
-                tv = (view.findViewById(R.id.blue));
+                tv = (view.findViewById(R.id.blueText));
                 tv.setText("blue");
                 col = "#"+getColorFromInt(a)+getColorFromInt(r)+getColorFromInt(g)+getColorFromInt(b);
                 view.findViewById(R.id.col).setBackgroundColor(android.graphics.Color.parseColor(col));
